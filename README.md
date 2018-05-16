@@ -95,7 +95,7 @@ const wrapper = shallow(<App />);
     Undefined properties are not allowed in the object property selector and will cause an error:
 
     ```javascript
-      wrapper.find({ foo: 3, bar: undefined });
+    wrapper.find({ foo: 3, bar: undefined });
     // => TypeError: Enzyme::Props can't have 'undefined' values. Try using 'findWhere()' instead.
     ```
 
@@ -104,6 +104,7 @@ const wrapper = shallow(<App />);
 The first time to run the test will pass and save the snapshot into __snapshots__ folder. Press u to update the stored snapshot.
 
 ```javascript
+// App.test.js
 it('matches the snapshot', () => {
   const tree = shallow(<App />);
   expect(toJson(tree)).toMatchSnapshot();
@@ -148,6 +149,7 @@ export default class Link extends Component {
 Fully rendering React component is ideal for use cases where you may have component interacted with DOM APIs or may required the full React lifecycles, ex: componentDinMount()...
 
 ```javascript
+// App.test.js
 const wrapper = mount(<App />, { context: {}, attachTo: DOMElement });
 // expect...
 wrapper.unmount(); // need to unmount
@@ -173,7 +175,7 @@ it('on input change, title changes text', () => {
   expect(wrapper.find('.inputText').text()).toBe('Hello World');
 });
 
-  // App.js
+// App.js
 class App extends Component {
   state = {
     on: false,
@@ -193,6 +195,7 @@ class App extends Component {
 ## Test new component state with setState
 
 ```javascript
+// App.test.js
 it('updates className with new State', () => {
   const wrapper = shallow(<App />);
   expect(wrapper.find('.blue').length).toBe(1);
@@ -207,6 +210,7 @@ it('updates className with new State', () => {
 ## Test React component Lifecycle methods
 
 ```javascript
+// App.test.js
 it('calls componentsDidMount', () => {
   jest.spyOn(App.prototype, 'componentDidMount');
   const wrapper = shallow(<App />);
@@ -223,14 +227,6 @@ it('setProps calls componentWillReceiveProps', () => {
 ## Test React component methods
 
 ```javascript
-// App.js
-class App extends Component {
-  handleStrings(str) { return !!str; }
-  render() {
-    // ...
-  }
-}
-
 // App.test.js
 it('handleStrings function returns correctly', () => {
   const wrapper = shallow(<App />);
@@ -239,11 +235,20 @@ it('handleStrings function returns correctly', () => {
   expect(trueReturn).toBe(true);
   expect(falseReturn).toBe(false);
 });
+
+// App.js
+class App extends Component {
+  handleStrings(str) { return !!str; }
+  render() {
+    // ...
+  }
+}
 ```
 
 ## Test React forms
 
 ```javascript
+// App.test.js
 describe('<Form />', () => {
   // default value
   it('receive checkbox default is true', () => {
@@ -281,6 +286,7 @@ describe('<Form />', () => {
 ## Test Redux connect components
 
 ```javascript
+// App.test.js
 describe('<TodoList />', () => {
   // addTodo with button click
   it('calls addTodo redux action creator with button click', () => {
